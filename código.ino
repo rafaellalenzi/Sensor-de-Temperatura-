@@ -12,7 +12,7 @@ NTPClient timeClient(ntpUDP, "south-america.pool.ntp.org");
 WiFiClient espClient;
 PubSubClient client(espClient);
 unsigned long lastMsg = 0;
-#define MSG_BUFFER_SIZE  (50)
+#define MSG_BUFFER_SIZE  (100)
 char msg[MSG_BUFFER_SIZE];   
 
 void setup_wifi() {
@@ -60,8 +60,8 @@ void reconnect() {
 
   if (client.connect(clientId.c_str())) {
     Serial.println("Conectado!");
-    client.publish("labnet/Temp", "hello world");
-    client.subscribe("labnet/Temp");
+    client.publish("labnet/TEMP", "hello world");
+    client.subscribe("labnet/TEMP");
 
   } else {
 
@@ -99,7 +99,7 @@ void loop() {
   int rawvoltage = analogRead(sensor); 
   float millivolts= (rawvoltage/1024.0) * 5000;
   float kelvin= (millivolts/10);
-  float celsius= kelvin - 273.15;
+  int celsius= kelvin - 273.15;
   Serial.print(celsius);
   Serial.println(" degrees Celsius");
   
@@ -113,7 +113,7 @@ void loop() {
   if (now - lastMsg > 2000) {
   lastMsg = now;
   snprintf (msg, MSG_BUFFER_SIZE, "Temperatura: %ld ppm - [Horário: %s]- [Data: %s]", celsius, formattedTime, atualData);
-  client.publish("labnet/Temp", msg);
+  client.publish("labnet/TEMP", msg);
   delay(2000);
 
   }
