@@ -112,7 +112,7 @@ void loop() {
   String formattedTime = timeClient.getFormattedTime();  
   if (now - lastMsg > 2000) {
   lastMsg = now;
-  snprintf (msg, MSG_BUFFER_SIZE, "Temperatura: %ld ppm - [Horário: %s]- [Data: %s]", celsius, formattedTime, atualData);
+  snprintf (msg, MSG_BUFFER_SIZE, "Temperatura: %ld Graus - [Horário: %s]- [Data: %s]", celsius, formattedTime, atualData);
   client.publish("labnet/TEMP", msg);
   delay(2000);
 
